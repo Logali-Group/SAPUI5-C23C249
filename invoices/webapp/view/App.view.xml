@@ -7,32 +7,20 @@
         <App id="app">
             <pages>
                 <Page id="page"
-                        title="Invoices">
+                        title="{i18n>appTitle}">
+
+                        <headerContent>
+                            <Button id="helloDialogHeader"
+                                icon="sap-icon://action"
+                                press="onOpenDialogHeader"
+                                class="sapUiSmallMarginEnd"/>
+                        </headerContent>
 
                         <content>
 
-                            <Panel headerText="{i18n>helloPanel}">
-
-                                <content>
-
-                                    <Button 
-                                            text="{i18n>showHelloButtonText}"
-                                            press="onShowHello"
-                                            icon="sap-icon://information"
-                                            type="Emphasized"/>
-
-                                    <Input class="sapUiSmallMarginBegin"
-                                        description="{i18n>hello} {view>/recipient/name}"
-                                        value="{view>/recipient/name}"
-                                        valueLiveUpdate="true"
-                                        width="60%"/>
-
-                                    <Text text="{i18n>hello} {view>/recipient/name}"
-                                            class="sapUiSmallMargin bodlElements"/>
-
-                                </content>
-
-                            </Panel>
+                            <mvc:XMLView id="viewHelloPanel"
+                                        viewName="logaligroup.com.invoices.view.HelloPanel"
+                                        type="XML"/>
 
                         </content>
 
