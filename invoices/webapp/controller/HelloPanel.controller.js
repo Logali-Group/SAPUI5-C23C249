@@ -9,6 +9,9 @@ sap.ui.define([
     return Controller.extend("logaligroup.com.invoices.controller.HelloPanel",{
 
         onInit: function () {
+            let oModeli18n = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+            let sSepartor = oModeli18n.getText("separator1");
+            console.log(sSepartor);
 
         },
 

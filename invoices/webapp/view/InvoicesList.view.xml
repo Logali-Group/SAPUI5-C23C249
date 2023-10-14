@@ -2,10 +2,26 @@
         xmlns="sap.m"
         xmlns:mvc="sap.ui.core.mvc">
 
-        <List   headerText="{i18n>invoiceListTitle}"
+        <List   id="invoiceList"
+                headerText="{i18n>invoiceListTitle}"
                 class="sapUiResponsiveMargin"
-                items="{invoices>/Invoices}"
+                items="{
+                    path:'invoices>/Invoices',
+                    sorter: {
+                        path:'ShipperName',
+                        group: true
+                    }
+                }"
                 width="auto">
+
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="{i18n>invoiceListTitle}"/>
+                        <ToolbarSpacer/>
+                        <SearchField width="50%"
+                                    liveChange="onFilterInvoices"/>
+                    </Toolbar>
+                </headerToolbar>
 
                 <items>
                         <ObjectListItem title="{invoices>Quantity} x {invoices>ProductName}"
@@ -20,10 +36,22 @@
                                             ],
                                             type:'sap.ui.model.type.Currency',
                                             formatOptions:{
-                                                showMeasure: false
+                                                showMeasure: false,
+                                                style: 'short',
+                                                roundingMode:'TOWARDS_ZERO'
                                             }
                                         }"
-                                        numberUnit="{currency>/usd}"/>
+                                        numberUnit="{currency>/usd}"
+                                        numberState="{= ${invoices>ExtendedPrice} > 50? 'Success' : 'Error'}">
+                            
+                            <firstStatus>
+                                <ObjectStatus text="{
+                                    path:'invoices>Status',
+                                        formatter:'.invoicesFormatter.invoicesStatus'
+                                }"/>
+                            </firstStatus>
+
+                        </ObjectListItem>
                 </items>
 
         </List>
