@@ -1,0 +1,90 @@
+<mvc:View controllerName="employees.controller.App"
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:mvc="sap.ui.core.mvc">
+
+    <Shell id="shell">
+        <App id="app">
+            <pages>
+                <Page id="page" title="{i18n>title}">
+                    <content>
+
+                        <HBox>
+                                <Label id="labelCountry"
+                                        text="{i18n>labelEmployee}"
+                                        class="sapUiSmallMargin"/>
+                                <Input id="slCountry"
+                                        class="sapUiSmallMarginEnd"
+                                        maxLength="6"
+                                        liveChange="onValidate"
+                                        value="{viewModel>/EmployeeId}"
+                                        width="200px"/>
+                                <Select id="countries"
+                                        items="{viewModel>/Countries}"
+                                        forceSelection="false"
+                                        selectedKey="{viewModel>/CountryKey}"
+                                        class="sapUiSmallMarginEnd">
+                                    <items>
+                                        <core:Item key="{viewModel>Key}" 
+                                                    text="{viewModel>Text}"/>
+                                    </items>
+                                </Select>
+                                <Button id="btnFilter"
+                                        text="{i18n>btnFilter}"
+                                       tooltip="{i18n>btnFilter}"
+                                        icon="sap-icon://search"
+                                        press="onFilter"
+                                        class="sapUiSmallMarginEnd"/>
+                                <Button id="btnClearFilter"
+                                        text="{i18n>btnClearFilter}"
+                                         tooltip="{i18n>btnClearFilter}"
+                                        icon="sap-icon://clear-filter"
+                                        press="onClearFilter"
+                                        class="sapUiSmallMarginEnd"/>
+                        </HBox>
+
+                        <HBox>
+                            <Panel>
+                                <content>
+                                    <Table id="tableEmployee"
+                                            items="{northwind>/Employees}">
+                                        <columns>
+                                            <Column>
+                                                <header>
+                                                    <Label text="{i18n>tableId}"/>
+                                                </header>
+                                            </Column>
+                                            <Column>
+                                                <Label text="{i18n>name}"/>
+                                            </Column>
+                                            <Column>
+                                                <Label text="{i18n>country}"/>
+                                            </Column>
+                                            <Column>
+                                                <Label text="{i18n>city}"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <Text text="{northwind>EmployeeID}"/>
+                                                    <Text text="{northwind>FirstName} {northwind>LastName}"/>
+                                                    <Text text="{northwind>Country}"/>
+                                                    <Text text="{northwind>City}"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </content>
+                            </Panel>
+                        </HBox>
+
+                    </content>
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+
+
+
+</mvc:View>
