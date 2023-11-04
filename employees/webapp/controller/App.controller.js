@@ -13,17 +13,34 @@ sap.ui.define([
         return Controller.extend("employees.controller.App", {
 
             onInit: function () {
-                this._loadModel();
+                this._loadEmployees();
+                this._loadCountries();
+                this._loadConfig();
             },
 
-            _loadModel: function () {
+            _loadEmployees: function () {
 
-                let oView = this.getView(),
-                    oi18n = oView.getModel("i18n").getResourceBundle();
+                let oView = this.getView();
 
                 let oModel = new JSONModel();
                     oModel.loadData("../model/Employees.json");
-                    oView.setModel(oModel, "viewModel");
+                    oView.setModel(oModel, "jsonEmployees");
+            },
+
+            _loadCountries: function () {
+                let oView = this.getView();
+
+                let oModel = new JSONModel();
+                    oModel.loadData("../model/Countries.json");
+                    oView.setModel(oModel, "jsonCountries");
+            },
+
+            _loadConfig: function () {
+                let oView = this.getView();
+
+                let oModel = new JSONModel();
+                    oModel.loadData("../model/Config.json");
+                    oView.setModel(oModel, "jsonConfig");
             },
 
             onValidate: function (oEvent) {
@@ -47,7 +64,7 @@ sap.ui.define([
                 // let sName = oInput.getValue(),
                 //     sCountry = oSelect.getSelectedKey();
 
-                let oViewModel = this.getView().getModel("viewModel");
+                let oViewModel = this.getView().getModel("jsonCountries");
                 let sName = oViewModel.getProperty("/EmployeeId"),
                     sCountry = oViewModel.getProperty("/CountryKey");
 
@@ -79,9 +96,29 @@ sap.ui.define([
                     oBinding = oTable.getBinding("items");
                     oBinding.filter([]);
 
-                let oViewModel = this.getView().getModel("viewModel");
+                let oViewModel = this.getView().getModel("jsonCountries");
                     oViewModel.setProperty("/EmployeeId", ""),
                     oViewModel.setProperty("/CountryKey", "");
+            },
+
+            onShowPostalCode: function (oEvent) {
+                let oItem = oEvent.getSource(),
+                    oBinding = oItem.getBindingContext("northwind");
+                sap.m.MessageToast.show("PostalCode: "+oBinding.getProperty("PostalCode"));
+            },
+
+            onShowCity: function () {
+                let oModelConfig = this.getView().getModel("jsonConfig");
+                oModelConfig.setProperty("/visibleCity", true);
+                oModelConfig.setProperty("/visibleBtnHideCity", true);
+                oModelConfig.setProperty("/visibleBtnShowCity", false);
+            },
+
+            onHideCity: function () {
+                let oModelConfig = this.getView().getModel("jsonConfig");
+                oModelConfig.setProperty("/visibleCity", false);
+                oModelConfig.setProperty("/visibleBtnHideCity", false);
+                oModelConfig.setProperty("/visibleBtnShowCity", true); 
             }
         });
     });

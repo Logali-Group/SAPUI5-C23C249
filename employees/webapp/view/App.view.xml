@@ -17,16 +17,16 @@
                                         class="sapUiSmallMarginEnd"
                                         maxLength="6"
                                         liveChange="onValidate"
-                                        value="{viewModel>/EmployeeId}"
+                                        value="{jsonCountries>/EmployeeId}"
                                         width="200px"/>
                                 <Select id="countries"
-                                        items="{viewModel>/Countries}"
+                                        items="{jsonCountries>/Countries}"
                                         forceSelection="false"
-                                        selectedKey="{viewModel>/CountryKey}"
+                                        selectedKey="{jsonCountries>/CountryKey}"
                                         class="sapUiSmallMarginEnd">
                                     <items>
-                                        <core:Item key="{viewModel>Key}" 
-                                                    text="{viewModel>Text}"/>
+                                        <core:Item key="{jsonCountries>Key}" 
+                                                    text="{jsonCountries>Text}"/>
                                     </items>
                                 </Select>
                                 <Button id="btnFilter"
@@ -46,26 +46,34 @@
                         <HBox>
                             <Panel>
                                 <content>
+                                    <Button id="btnShowCity"
+                                            text="{i18n>showCity}"
+                                            visible="{jsonConfig>/visibleBtnShowCity}"
+                                            press="onShowCity"/>
+                                    <Button id="btnHideCity"
+                                            text="{i18n>hideCity}"
+                                            visible="{jsonConfig>/visibleBtnHideCity}"
+                                            press="onHideCity"/>
                                     <Table id="tableEmployee"
                                             items="{northwind>/Employees}">
                                         <columns>
-                                            <Column>
+                                            <Column visible="{jsonConfig>/visibleID}">
                                                 <header>
                                                     <Label text="{i18n>tableId}"/>
                                                 </header>
                                             </Column>
-                                            <Column>
+                                            <Column visible="{jsonConfig>/visibleName}">
                                                 <Label text="{i18n>name}"/>
                                             </Column>
-                                            <Column>
+                                            <Column visible="{jsonConfig>/visibleCountry}">
                                                 <Label text="{i18n>country}"/>
                                             </Column>
-                                            <Column>
+                                            <Column visible="{jsonConfig>/visibleCity}">
                                                 <Label text="{i18n>city}"/>
                                             </Column>
                                         </columns>
                                         <items>
-                                            <ColumnListItem>
+                                            <ColumnListItem type="Active" press="onShowPostalCode">
                                                 <cells>
                                                     <Text text="{northwind>EmployeeID}"/>
                                                     <Text text="{northwind>FirstName} {northwind>LastName}"/>
