@@ -119,6 +119,46 @@ sap.ui.define([
                 oModelConfig.setProperty("/visibleCity", false);
                 oModelConfig.setProperty("/visibleBtnHideCity", false);
                 oModelConfig.setProperty("/visibleBtnShowCity", true); 
+            },
+
+            onShowOrders: function (oEvent) {
+
+                console.log(oEvent.getSource().getBindingContext("northwind").getProperty("Orders"));
+
+                let oContainer = this.byId("ordersTable");
+                    oContainer.destroyItems();
+
+                let oItem = oEvent.getSource(),
+                    oBinding = oItem.getBindingContext("northwind"),
+                    oData = oBinding.getObject(),
+                    oOrders = oData.Orders;
+
+                    
+
+                let aOrdersItems = [];
+
+                for (let i in oOrders.__list) {
+                    aOrdersItems.push(new sap.m.ColumnListItem({
+                        cells: [
+                            new sap.m.Text({text: oOrders[i].OrderID}),
+                            new sap.m.Text({text: oOrders[i].Freight}),
+                            new sap.m.Text({text: oOrders[i].ShipAddress})
+                        ]
+                    }))
+                }
+
+                let oNewTable = new sap.m.Table({
+                    width: "auto",
+                    columns: [
+                        new sap.m.Column({header: new sap.m.Label({text: "{i18n>orderID}"})}),
+                        new sap.m.Column({header: new sap.m.Label({text: "{i18n>freight}"})}),
+                        new sap.m.Column({header: new sap.m.Label({text: "{i18n>shipAddress}"})})
+                    ],
+                    items: aOrdersItems
+                }).addStyleClass("sapUiSmallMargin");
+
+                
+                    oContainer.addItem(oNewTable);
             }
         });
     });

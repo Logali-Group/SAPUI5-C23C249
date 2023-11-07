@@ -55,7 +55,12 @@
                                             visible="{jsonConfig>/visibleBtnHideCity}"
                                             press="onHideCity"/>
                                     <Table id="tableEmployee"
-                                            items="{northwind>/Employees}">
+                                            items="{
+                                                path: 'northwind>/Employees',
+                                                parameters:{
+                                                    expand:'Orders'
+                                                }
+                                            }">
                                         <columns>
                                             <Column visible="{jsonConfig>/visibleID}">
                                                 <header>
@@ -73,7 +78,7 @@
                                             </Column>
                                         </columns>
                                         <items>
-                                            <ColumnListItem type="Active" press="onShowPostalCode">
+                                            <ColumnListItem type="Active" press="onShowOrders">
                                                 <cells>
                                                     <Text text="{northwind>EmployeeID}"/>
                                                     <Text text="{northwind>FirstName} {northwind>LastName}"/>
@@ -83,6 +88,7 @@
                                             </ColumnListItem>
                                         </items>
                                     </Table>
+                                    <HBox id="ordersTable"/>
                                 </content>
                             </Panel>
                         </HBox>
