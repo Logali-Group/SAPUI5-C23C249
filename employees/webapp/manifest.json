@@ -1,0 +1,158 @@
+{
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "employees",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.11.5",
+            "toolsId": "8c9d43f3-0ae3-46ea-b52f-7af32d657bc6"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/v2/northwind/northwind.svc/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "YSAPUI5_SRV_01": {
+                "uri": "/sap/opu/odata/sap/YSAPUI5_SRV_01/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/YSAPUI5_SRV_011/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.120.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.table": {},
+                "sap.ushell": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "employees.i18n.i18n"
+                }
+            },
+            "odataNorthwind": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {}
+            },
+            "ysapui5": {
+                "dataSource": "YSAPUI5_SRV_01",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "useBatch":false,
+                    "defaultUpdateMethod":"Put",
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ],
+            "js":[
+                {
+                    "uri":"libs/Signature.js"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "employees.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "RouteMain",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetMain"
+                    ]
+                },
+                {
+                    "name":"RouteDetails",
+                    "pattern":"OrderDetails/{OrderID}",
+                    "target":[
+                        "TargetOrderDetails"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetMain": {
+                    "viewName": "Main"
+                },
+                "targetMasterEmployee": {
+                    "viewName": "MasterEmployee"
+                },
+                "TargetOrderDetails":{
+                    "viewName":"OrderDetails"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "employees.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "app"
+        }
+    }
+}

@@ -1,0 +1,117 @@
+<mvc:View       
+        controllerName="employees.controller.OrderDetails"
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:l="sap.ui.layout"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:upload="sap.m.upload"
+        xmlns:sg="employees.control">
+
+
+        <Page showNavButton="true"
+                navButtonPress="onNavToBack"
+                title="{i18n>orderID} {odataNorthwind>OrderID}">
+
+                <content> 
+
+                        <Panel headerText="{i18n>customerID} {odataNorthwind>CustomerID}">
+
+                                <l:Grid>
+
+                                        <f:Form editable="false">
+
+                                                <f:layout>
+                                                        <f:ResponsiveGridLayout labelSpanL="6"
+                                                                                labelSpanM="6"
+                                                                                labelSpanS="12"/>
+                                                </f:layout>
+
+                                                <f:formContainers> 
+
+                                                        <f:FormContainer>
+
+                                                                <f:formElements>
+
+                                                                        <f:FormElement label="{i18n>orderDate}">
+                                                                                <f:fields>
+                                                                                        <Text text="{
+                                                                                                path:'odataNorthwind>OrderDate',
+                                                                                                type:'sap.ui.model.odata.type.Date'
+                                                                                        }"/>
+                                                                                </f:fields>
+                                                                        </f:FormElement>
+
+                                                                        <f:FormElement label="{i18n>freight}">
+                                                                                <f:fields>
+                                                                                        <Text text="{odataNorthwind>Freight}"/>
+                                                                                </f:fields>
+                                                                        </f:FormElement>
+
+                                                                        <f:FormElement label="{i18n>shipName}">
+                                                                                <f:fields>
+                                                                                        <Text text="{odataNorthwind>ShipName}"/>
+                                                                                </f:fields>
+                                                                        </f:FormElement>
+
+                                                                        <f:FormElement label="{i18n>shipAddress}">
+                                                                                <f:fields>
+                                                                                        <Text text="{odataNorthwind>ShipAddress}"/>
+                                                                                </f:fields>
+                                                                        </f:FormElement>
+                                                                        
+
+                                                                </f:formElements>  
+                                                                
+                                                        </f:FormContainer>
+
+                                                </f:formContainers>
+
+
+                                        </f:Form>
+
+                                        <FlexBox class="sapUiTinyMarginTop">
+                                                <sg:Signature id="signature"/>
+                                                <Button text="{i18n>clear}"
+                                                        press="onClearSignature"
+                                                        class="sapUiTinyMarginBegin"/>
+                                        </FlexBox>
+
+                                </l:Grid>
+                        
+                        </Panel>
+
+                        <Panel headerText="{i18n>files}">
+                                <headerToolbar>
+                                        <Toolbar>
+                                                <ToolbarSpacer/>
+                                                <Button icon="sap-icon://download"
+                                                        press="onDownloadFile"/>
+                                        </Toolbar>
+                                </headerToolbar>
+                                <content>
+                                        <upload:UploadSet
+                                                        id="uploadSet"
+                                                        uploadUrl="/sap/opu/odata/sap/YSAPUI5_SRV_01/FilesSet"
+                                                        beforeUploadStarts="onFileBeforeUpload"
+                                                        uploadCompleted="onFileUploadCompleted"
+                                                        afterItemRemoved="onFileDeleted"/>
+                                </content>
+                        </Panel>
+                
+                
+                </content>
+
+
+                <footer>
+                        <Toolbar>
+                                <ToolbarSpacer/>
+                                <Button text="{i18n>saveSignature}"
+                                                press="onSaveSignature"/>
+                        </Toolbar>
+                </footer>
+
+        </Page>
+
+
+</mvc:View>
