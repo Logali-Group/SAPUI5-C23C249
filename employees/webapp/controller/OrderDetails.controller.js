@@ -62,22 +62,6 @@ sap.ui.define([
                     console.log(err);
                 }
             });
-
-            let oUploadSet = this.byId("uploadSet");
-
-            oUploadSet.bindAggregation("items",{
-                path:'ysapui5>/FilesSet',
-                filters:[
-                    new sap.ui.model.Filter("OrderId", "EQ", sOrderId),
-                    new sap.ui.model.Filter("SapId","EQ",sSapId),
-                    new sap.ui.model.Filter("EmployeeId","EQ", sEmployeeId)
-                ],
-                template: new sap.m.upload.UploadSetItem({
-                    fileName: "{ysapui5>FileName}",
-                    mediaType: "{ysapui5>MimeType}",
-                    visibleEdit: false
-                })
-            });
         },
 
         onNavToBack: function (oEvent) {
@@ -134,71 +118,6 @@ sap.ui.define([
                     }
                 });
             }
-        },
-
-        onFileBeforeUpload: function (oEvent) {
-            let oItem = oEvent.getParameter("item"),
-                oModel = this.getView().getModel("ysapui5"),
-                oBindingContext = oItem.getBindingContext("odataNorthwind"),
-                sOrderID = oBindingContext.getProperty("OrderID").toString(),
-                sSapID = this.getOwnerComponent().SapId,
-                sEmployeeID = oBindingContext.getProperty("EmployeeID").toString(),
-                sFileName = oItem.getFileName(),
-                sSecurityToken = oModel.getSecurityToken();
-
-                let sSlug = sOrderID+";"+sSapID+";"+sEmployeeID+";"+sFileName;
-
-                let oCustomerHeaderToken = new sap.ui.core.Item({
-                    key:"X-CSRF-Token",
-                    text: sSecurityToken
-                });
-
-                let oCustomerHeaderSlug = new sap.ui.core.Item({
-                    key:"Slug",
-                    text:sSlug
-                });
-
-                oItem.addHeaderField(oCustomerHeaderToken);
-                oItem.addHeaderField(oCustomerHeaderSlug);
-
-                console.log(oItem);
-            
-        },
-
-        onFileUploadCompleted: function (oEvent) {
-            let oUploadSet = oEvent.getSource();
-                oUploadSet.getBinding("items").refresh();
-        },
-
-        onFileDeleted: function (oEvent) {
-            let oUploadSet = oEvent.getSource();
-            let sPath = oEvent.getParameter("item").getBindingContext("ysapui5").getPath();
-
-
-            this.getView().getModel("ysapui5").remove(sPath,{
-                success: function () {
-                    oUploadSet.getBinding("items").refresh();
-                },
-                error: function () {
-
-                }
-            });
-        },
-
-        onDownloadFile: function () {
-            let oUploadSet = this.byId("uploadSet"),
-                oResourceBundle = this.getView().getModel("i18n").getResourceBundle(),
-                aItems = oUploadSet.getSelectedItems();
-
-                if (aItems.length === 0 ) {
-                    MessageBox.error(oResourceBundle.getText("selectFile"));
-                } else {
-                    aItems.forEach((oItem)=>{
-                        let oBindingContext = oItem.getBindingContext("ysapui5"),
-                            sPath = oBindingContext.getPath();
-                            window.open("/sap/opu/odata/sap/YSAPUI5_SRV_01/"+sPath+"/$value");
-                    });
-                }
         }
 
     });

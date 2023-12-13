@@ -80,25 +80,6 @@
                                 </l:Grid>
                         
                         </Panel>
-
-                        <Panel headerText="{i18n>files}">
-                                <headerToolbar>
-                                        <Toolbar>
-                                                <ToolbarSpacer/>
-                                                <Button icon="sap-icon://download"
-                                                        press="onDownloadFile"/>
-                                        </Toolbar>
-                                </headerToolbar>
-                                <content>
-                                        <upload:UploadSet
-                                                        id="uploadSet"
-                                                        uploadUrl="/sap/opu/odata/sap/YSAPUI5_SRV_01/FilesSet"
-                                                        beforeUploadStarts="onFileBeforeUpload"
-                                                        uploadCompleted="onFileUploadCompleted"
-                                                        afterItemRemoved="onFileDeleted"/>
-                                </content>
-                        </Panel>
-                
                 
                 </content>
 
