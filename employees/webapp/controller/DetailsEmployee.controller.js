@@ -57,20 +57,7 @@ sap.ui.define([
             let oBindingContext = oEvent.getSource().getBindingContext("incidenceModel"),
                 oObject = oBindingContext.getObject();
                 oObject.TypeX = true;
-        },
-
-        onNavToOrderDetails: function (oEvent) {
-
-            let oItem = oEvent.getSource(),
-                oBindingContext = oItem.getBindingContext("odataNorthwind"),
-                sOrderId = oBindingContext.getProperty("OrderID");
-
-            let oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-                oRouter.navTo("RouteDetails",{
-                    OrderID: sOrderId
-                });
         }
-
     });
 
 });
