@@ -41,28 +41,6 @@ sap.ui.define([
 
             this._oEventBus = sap.ui.getCore().getEventBus();
             this._oEventBus.subscribe("flexible","showDetails", this.showEmployeeDetails.bind(this));
-            this._oEventBus.subscribe("incidence","onSaveIncidence", this.onSaveODataIncidence.bind(this));
-            this._oEventBus.subscribe("incidence","onDeleteIncidence", function (sChannelId, sEvent, oBindingContext) {
-
-                let oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
-                let sUrl = "/IncidentsSet(IncidenceId='"+oBindingContext.getProperty("IncidenceId")+"',SapId='"+oBindingContext.getProperty("SapId")+"',EmployeeId='"+oBindingContext.getProperty("EmployeeId")+"')";
-                
-
-                this._oYSAPUI5.remove(sUrl, {
-                    success: function () {
-                        this.onReadODataIncidence(oBindingContext.getProperty("EmployeeId"));
-                        sap.m.MessageToast.show(oResourceBundle.getText("odataDeleteOK"));
-                    }.bind(this),
-                    error: function () {
-                        sap.m.MessageToast.show(oResourceBundle.getText("odataDeleteKO"));
-                    }
-                });
-            
-            },this);
-        },
-
-        onBeforeRendering: function() {
-            this._detailsEmployeeView = this.getView().byId("detailsEmployeeView");
         },
 
         showEmployeeDetails: function (sChanne, sEventName, sPath) {
@@ -74,107 +52,6 @@ sap.ui.define([
             let oIncidence = new JSONModel([]);
             oDetailsView.setModel(oIncidence, "incidenceModel");
             oDetailsView.byId("tableIncidence").removeAllContent();
-
-
-            let oBindingContext = this._detailsEmployeeView.getBindingContext("odataNorthwind"),
-                sEmployeeID = oBindingContext.getProperty("EmployeeID").toString();
-
-            this.onReadODataIncidence(sEmployeeID);
-        },
-
-        onSaveODataIncidence: function (sId1, sId2, oBindingContext) {
-
-            let oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
-            let oBinding = this._detailsEmployeeView.getBindingContext("odataNorthwind");
-            let iEmployeeID = oBinding.getProperty("EmployeeID");
-            let sEmployeeID = iEmployeeID.toString();
-
-            if (typeof oBindingContext.getProperty("IncidenceId") == 'undefined') {
-
-                let oData = {
-                    SapId:          this.getOwnerComponent().SapId,
-                    EmployeeId:     sEmployeeID,
-                    CreationDate:   oBindingContext.getProperty("CreationDate"),
-                    Type:           oBindingContext.getProperty("Type"),
-                    Reason:         oBindingContext.getProperty("Reason")
-                };
-    
-                let sUrl = "/IncidentsSet";
-    
-                //URL, Object
-                this.getView().getModel("ysapui5").create(sUrl, oData, {
-                    success: function () {
-                        this.onReadODataIncidence(sEmployeeID);
-                        sap.m.MessageToast.show(oResourceBundle.getText("odataSaveOK"));
-                    }.bind(this),
-                    error: function () {
-                        sap.m.MessageToast.show(oResourceBundle.getText("odataSaveKO"));
-                    }
-                });
-
-            } else if (oBindingContext.getProperty("CreationDateX") || oBindingContext.getProperty("ReasonX") || oBindingContext.getProperty("TypeX")) {
-                //Update
-
-                let oData = {
-                    CreationDate:       oBindingContext.getProperty("CreationDate"),
-                    CreationDateX:      oBindingContext.getProperty("CreationDateX"),
-                    Type:               oBindingContext.getProperty("Type"),
-                    TypeX:              oBindingContext.getProperty("TypeX"),
-                    Reason:             oBindingContext.getProperty("Reason"),
-                    ReasonX:            oBindingContext.getProperty("ReasonX")
-                };
-
-                let sIncidenceID = oBindingContext.getProperty("IncidenceId"),
-                    sSapID = this.getOwnerComponent().SapId;
-
-                let sUrl = "/IncidentsSet(IncidenceId='"+sIncidenceID+"',SapId='"+sSapID+"',EmployeeId='"+sEmployeeID+"')";
-
-                //this.getOwnerComponent().getModel("ysapui5")
-                this.getView().getModel("ysapui5").update(sUrl, oData, {
-                    success: function () {
-                        this.onReadODataIncidence(sEmployeeID);
-                        sap.m.MessageToast.show(oResourceBundle.getText("odataUpdateOK"));
-                    }.bind(this),
-                    error: function () {
-                        sap.m.MessageToast.show(oResourceBundle.getText("odataUpdateKO"));
-                    }
-                });
-
-            }
-
-
-
-        },
-
-        onReadODataIncidence: function (sEmployeeID) {
-
-            let sUrl = "/IncidentsSet";
-            let sSAPID = this.getOwnerComponent().SapId;
-            
-            this.getView().getModel("ysapui5").read(sUrl, {
-                filters:[
-                    new sap.ui.model.Filter("SapId", "EQ", sSAPID),
-                    new sap.ui.model.Filter("EmployeeId", "EQ", sEmployeeID)
-                ],
-                success: function (data) {
-                    console.log("Datos de consulta");
-                    console.log(data);
-                    let oIncidenceModel = this._detailsEmployeeView.getModel("incidenceModel");
-                        oIncidenceModel.setData(data.results);
-                    let oTableIncidence = this._detailsEmployeeView.byId("tableIncidence");
-                        oTableIncidence.removeAllContent();
-
-                    for (let aux in data.results ) {
-                        let oNewIncidence = sap.ui.xmlfragment("employees.fragment.NewIncidence", this._detailsEmployeeView.getController());
-                        this._detailsEmployeeView.addDependent(oNewIncidence);
-                        oNewIncidence.bindElement("incidenceModel>/"+aux);
-                        oTableIncidence.addContent(oNewIncidence);
-                    }
-                }.bind(this),
-                error: function (e) {
-                    console.log(e);
-                }
-            });
         }
 
     });

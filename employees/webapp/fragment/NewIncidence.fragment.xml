@@ -17,15 +17,6 @@
                                     formatter: '.callFormater.dateFormat' 
                                 }
                     "/>
-                    <ToolbarSpacer />
-                    <Button
-                            type="Accept"
-                            icon="sap-icon://save"
-                            press="onSaveIncidence"/>
-                    <Button
-                            type="Reject"
-                            icon="sap-icon://delete"
-                            press="onDeleteIncidence"/>
                 </Toolbar>
             </headerToolbar>
 
