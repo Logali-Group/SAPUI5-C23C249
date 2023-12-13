@@ -6,8 +6,34 @@
                     contentWidth="25rem">
         
             <content>
-                <core:Fragment fragmentName="employees.fragment.TableOrders"
-                                type="XML"/>
+                <Table items="{odataNorthwind>Orders}"
+                        width="auto">
+                        
+                    <columns>
+                        <Column>
+                            <Label text="{i18n>OrderId}"/>
+                        </Column>
+                        <Column>
+                            <Label text="{i18n>freight}"/>
+                        </Column>
+
+                        <Column>
+                            <Label text="{i18n>shipAddress}"/>
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem type="Navigation"
+                                        press="onNavToOrderDetails">
+                            <cells>
+                                <Text text="{odataNorthwind>OrderID}"/>
+                                <Text text="{odataNorthwind>Freight}"/>
+                                <Text text="{odataNorthwind>ShipAddress}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+
+                </Table>
             </content>
 
             <endButton>

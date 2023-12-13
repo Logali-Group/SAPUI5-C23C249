@@ -89,13 +89,6 @@
                 class="sapUiNoContentPadding"
                 backgroundDesign="Transparent"/>
 
-        <Panel class="sapUiSizeCompact"
-                backgroundDesign="Transparent"
-                headerText="{i18n>orders}">
-            <core:Fragment fragmentName="employees.fragment.TableOrders"
-                            type="XML"/>
-        </Panel>
-
     </Page>
 
 </mvc:View>

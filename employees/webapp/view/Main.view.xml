@@ -6,51 +6,62 @@
         xmlns:mvc="sap.ui.core.mvc">
 
 
-        <Page showHeader="false">
-        
-            <content>
+        <Shell id="shell">
 
-                <f:FlexibleColumnLayout id="fcl"
-                                            backgroundDesign="Solid"
-                                            layout="{jsonLayout>/ActiveKey}">
-                    <f:beginColumnPages>
-                        <mvc:XMLView id="masterEmployeeView"
-                                        viewName="employees.view.MasterEmployee"
-                                        type="XML"/>
-                    </f:beginColumnPages>
+            <App id="app">
+                <pages>
+                    <Page showHeader="false">
+                    
+                        <content>
 
-                    <f:midColumnPages>
-                        <mvc:XMLView id="detailsEmployeeView"
-                                        viewName="employees.view.DetailsEmployee"
-                                        type="XML"/>
-                    </f:midColumnPages>
+                            <f:FlexibleColumnLayout id="fcl"
+                                                        backgroundDesign="Solid"
+                                                        layout="{jsonLayout>/ActiveKey}">
+                                <f:beginColumnPages>
+                                    <mvc:XMLView id="masterEmployeeView"
+                                                    viewName="employees.view.MasterEmployee"
+                                                    type="XML"/>
+                                </f:beginColumnPages>
 
-                    <f:endColumnPages>
-                        <Page>
+                                <f:midColumnPages>
+                                    <mvc:XMLView id="detailsEmployeeView"
+                                                    viewName="employees.view.DetailsEmployee"
+                                                    type="XML"/>
+                                </f:midColumnPages>
 
-                        </Page>
-                    </f:endColumnPages>
+                                <f:endColumnPages>
+                                    <Page>
 
-                </f:FlexibleColumnLayout>
-            
-            </content>
+                                    </Page>
+                                </f:endColumnPages>
+
+                            </f:FlexibleColumnLayout>
+                        
+                        </content>
 
 
-            <footer>
+                        <footer>
 
-                <Toolbar>
+                            <Toolbar>
 
-                    <Label text="{i18n>layout}" 
-                                class="sapUiSmallMargin"/>
-                    <Select items="{jsonLayout>/Layout}"
-                            selectedKey="{jsonLayout>/ActiveKey}">
-                        <core:Item key="{jsonLayout>Key}"
-                                    text="{jsonLayout>Text}"/>
-                    </Select>
-                </Toolbar>
-            
-            </footer>
+                                <Label text="{i18n>layout}" 
+                                            class="sapUiSmallMargin"/>
+                                <Select items="{jsonLayout>/Layout}"
+                                        selectedKey="{jsonLayout>/ActiveKey}">
+                                    <core:Item key="{jsonLayout>Key}"
+                                                text="{jsonLayout>Text}"/>
+                                </Select>
+                            </Toolbar>
+                        
+                        </footer>
 
-        </Page>
+                    </Page>
+
+                </pages>
+            </App>
+
+        </Shell>
+
+
 
 </mvc:View>

@@ -103,11 +103,6 @@
                 {
                     "uri": "css/style.css"
                 }
-            ],
-            "js":[
-                {
-                    "uri":"libs/Signature.js"
-                }
             ]
         },
         "routing": {
@@ -127,13 +122,6 @@
                     "target": [
                         "TargetMain"
                     ]
-                },
-                {
-                    "name":"RouteDetails",
-                    "pattern":"OrderDetails/{OrderID}",
-                    "target":[
-                        "TargetOrderDetails"
-                    ]
                 }
             ],
             "targets": {
@@ -142,14 +130,11 @@
                 },
                 "targetMasterEmployee": {
                     "viewName": "MasterEmployee"
-                },
-                "TargetOrderDetails":{
-                    "viewName":"OrderDetails"
                 }
             }
         },
         "rootView": {
-            "viewName": "employees.view.App",
+            "viewName": "employees.view.Main",
             "type": "XML",
             "async": true,
             "id": "app"
